@@ -1,5 +1,6 @@
 package sk.carbooking;
 
+import sk.carbooking.car.CarService;
 import sk.carbooking.user.UserService;
 
 import java.io.IOException;
@@ -10,6 +11,7 @@ public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         UserService userService = new UserService();
+        CarService carService = new CarService();
 
         boolean keepLooping = true;
 
@@ -21,8 +23,8 @@ public class Main {
                     case 1 -> System.out.println("choice 1");
                     case 2 -> System.out.println("choice 1");
                     case 3 -> System.out.println("choice 1");
-                    case 4 -> System.out.println("choice 1");
-                    case 5 -> System.out.println("choice 1");
+                    case 4 -> System.out.println(Arrays.toString(carService.getAllCars()));
+                    case 5 -> System.out.println(Arrays.toString(carService.getAllElectricCars()));
                     case 6 -> System.out.println(Arrays.toString(userService.getUsers()));
                     case 7 -> keepLooping = false;
                     default -> System.out.println(choice + " not a valid option ❌");

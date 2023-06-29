@@ -9,7 +9,7 @@ public class UserService {
       return userDao.getUsers();
     };
 
-    public User gerUserById(UUID id) {
+    public User getUserById(UUID id) {
         for (User user : userDao.getUsers()) {
             if (user.getId().equals(id)) {
                 return user;
