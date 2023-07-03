@@ -8,8 +8,9 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class BookingService {
-    private final static BookingDAO bookingDAO = new BookingDAO();
-    private final static CarService carService = new CarService();
+
+    private final BookingDAO bookingDao = new BookingDAO();
+    private final CarService carService = new CarService();
 
     public UUID bookCar(User user, String regNumber) {
         Car[] availableCars = getAvailableCars();
@@ -18,22 +19,23 @@ public class BookingService {
             throw new IllegalStateException("No car available for renting");
         }
 
-        for (Car avaliableCar : availableCars) {
+        for (Car availableCar : availableCars) {
             // let's make sure the car user wants still available
-            if (avaliableCar.getRegNumber().equals(regNumber)) {
+            if (availableCar.getRegNumber().equals(regNumber)) {
                 Car car = carService.getCarByRegNumber(regNumber);
                 UUID bookingId = UUID.randomUUID();
-                bookingDAO.book(
+                bookingDao.book(
                         new Booking(bookingId, user, car, LocalDateTime.now())
                 );
+                // at this point we are done therefore we can exit this method
                 return bookingId;
             }
         }
         throw new IllegalStateException("Already booked. car with regNumber " + regNumber);
-    };
+    }
 
-    public Car[] getUserBoookedCars(UUID userId) {
-        Booking[] carBookings = bookingDAO.getCarBookings();
+    public Car[] getUserBookedCars(UUID userId) {
+        Booking[] carBookings = bookingDao.getCarBookings();
 
         int numberOfBookingsForUser = 0;
 
@@ -55,9 +57,9 @@ public class BookingService {
                 userCars[index++] = carBooking.getCar();
             }
         }
-
         return userCars;
     }
+
 
     public Car[] getAvailableCars() {
         return getCars(carService.getAllCars());
@@ -68,30 +70,34 @@ public class BookingService {
     }
 
     private Car[] getCars(Car[] cars) {
-        // no cars in the system yet
 
+        // no cars in the system yet
         if (cars.length == 0) {
             return new Car[0];
         }
 
-        Booking[] carBookings = bookingDAO.getCarBookings();
+        Booking[] carBookings = bookingDao.getCarBookings();
+
+        // no bookings yet therefore all cars are available
+        if (carBookings.length == 0) {
+            return cars;
+        }
 
         // this variable is used to create new array for availableCars since we need the size
         int availableCarsCount = 0;
 
-        for (Car car: cars) {
+        for (Car car : cars) {
             // lets check if car part of any booking. if not then its available
             boolean booked = false;
             for (Booking carBooking : carBookings) {
-                if (carBooking == null ||  !carBooking.getCar().equals(car)) {
+                if (carBooking == null || !carBooking.getCar().equals(car)) {
                     continue;
                 }
                 booked = true;
-                if (!booked) {
-                    ++availableCarsCount;
-                }
             }
-
+            if (!booked) {
+                ++availableCarsCount;
+            }
         }
 
         Car[] availableCars = new Car[availableCarsCount];
@@ -114,11 +120,10 @@ public class BookingService {
         }
 
         return availableCars;
-
     }
 
     public Booking[] getBookings() {
-        Booking[] carBookings = bookingDAO.getCarBookings();
+        Booking[] carBookings = bookingDao.getCarBookings();
 
         int numberOfBookings = 0;
 
@@ -142,6 +147,5 @@ public class BookingService {
         }
         return bookings;
     }
-
 
 }
