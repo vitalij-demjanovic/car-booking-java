@@ -1,11 +1,23 @@
 package sk.carbooking.car;
 
+
+import java.util.UUID;
+
 public class CarService {
     private final static CarDAO carDao = new CarDAO();
 
     public Car[] getAllCars() {
         return carDao.getCars();
     }
+
+    public Car getCarByRegNumber(String regNumber) {
+        for (Car car : carDao.getCars()) {
+            if (regNumber.equals(car.getRegNumber())) {
+                return car;
+            }
+        }
+        return null;
+    };
 
     public Car[] getAllElectricCars() {
       int electricCarsCount = 0;

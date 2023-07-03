@@ -4,6 +4,7 @@ import sk.carbooking.car.Car;
 import sk.carbooking.user.User;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.UUID;
 
 public class Booking {
@@ -21,6 +22,10 @@ public class Booking {
         this.isCanceled = isCanceled;
     }
 
+
+    public Booking(UUID bookingId, User user, Car car, LocalDateTime bookingTime) {
+        this(bookingId, user, car, bookingTime, false);
+    }
     public UUID getBookingId() {
         return bookingId;
     }
@@ -59,5 +64,29 @@ public class Booking {
 
     public void setCanceled(boolean canceled) {
         isCanceled = canceled;
+    }
+
+    @Override
+    public String toString() {
+        return "Booking{" +
+                "bookingId=" + bookingId +
+                ", user=" + user +
+                ", car=" + car +
+                ", bookingTime=" + bookingTime +
+                ", isCanceled=" + isCanceled +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Booking booking = (Booking) o;
+        return isCanceled == booking.isCanceled && Objects.equals(bookingId, booking.bookingId) && Objects.equals(user, booking.user) && Objects.equals(car, booking.car) && Objects.equals(bookingTime, booking.bookingTime);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(bookingId, user, car, bookingTime, isCanceled);
     }
 }

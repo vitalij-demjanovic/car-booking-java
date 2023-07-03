@@ -1,17 +1,17 @@
 package sk.carbooking;
 
-import sk.carbooking.car.CarService;
+import sk.carbooking.booking.Booking;
+import sk.carbooking.booking.BookingService;
+import sk.carbooking.user.User;
 import sk.carbooking.user.UserService;
 
-import java.io.IOException;
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         UserService userService = new UserService();
-        CarService carService = new CarService();
+        BookingService bookingService = new BookingService();
 
         boolean keepLooping = true;
 
@@ -22,10 +22,10 @@ public class Main {
                 switch (Integer.parseInt(choice)) {
                     case 1 -> System.out.println("choice 1");
                     case 2 -> System.out.println("choice 1");
-                    case 3 -> System.out.println("choice 1");
-                    case 4 -> System.out.println(Arrays.toString(carService.getAllCars()));
-                    case 5 -> System.out.println(Arrays.toString(carService.getAllElectricCars()));
-                    case 6 -> System.out.println(Arrays.toString(userService.getUsers()));
+                    case 3 -> displayAllBookings(bookingService);
+                    case 4 -> System.out.println("choice 1");
+                    case 5 -> System.out.println("choice 1");
+                    case 6 -> displayAllUsers(userService);
                     case 7 -> keepLooping = false;
                     default -> System.out.println(choice + " not a valid option ❌");
                 }
@@ -34,6 +34,32 @@ public class Main {
             System.out.println(e.getMessage());
         }
     }
+
+    private static void displayAllUsers(UserService userService) {
+        User[] users = userService.getUsers();
+
+        if (users.length == 0) {
+            System.out.println("❌ No users in the system");
+        }
+
+        for (User user : users) {
+            System.out.println(user);
+        }
+    }
+
+    private static void displayAllBookings(BookingService bookingService) {
+        Booking[] bookings = bookingService.getAllBookings();
+
+        if (bookings.length == 0) {
+            System.out.println("No bookings available 😕");
+            return;
+        }
+
+        for (Booking booking : bookings) {
+            System.out.println("booking =  " + booking);
+        }
+    }
+
     private static void displayMenu() {
         System.out.println("""
                 \n
