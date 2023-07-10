@@ -3,7 +3,7 @@ package sk.carbooking.user;
 import java.util.UUID;
 
 public class UserService {
-    private final static UserDAO userDao = new UserDAO();
+    private final static UserDAO userDao = new UserFileDataAccessService();
 
     public User[] getUsers(){
       return userDao.getUsers();

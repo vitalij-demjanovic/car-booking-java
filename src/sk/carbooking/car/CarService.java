@@ -1,8 +1,5 @@
 package sk.carbooking.car;
 
-
-import java.util.UUID;
-
 public class CarService {
     private final static CarDAO carDao = new CarDAO();
 
