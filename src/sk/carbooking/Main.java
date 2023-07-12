@@ -1,9 +1,14 @@
 package sk.carbooking;
 
 import sk.carbooking.booking.Booking;
+import sk.carbooking.booking.BookingDAO;
 import sk.carbooking.booking.BookingService;
 import sk.carbooking.car.Car;
+import sk.carbooking.car.CarDAO;
+import sk.carbooking.car.CarService;
 import sk.carbooking.user.User;
+import sk.carbooking.user.UserDAO;
+import sk.carbooking.user.UserFileDataAccessService;
 import sk.carbooking.user.UserService;
 
 import java.util.Scanner;
@@ -11,10 +16,16 @@ import java.util.UUID;
 
 public class Main {
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        UserService userService = new UserService();
-        BookingService bookingService = new BookingService();
+        UserDAO userDao = new UserFileDataAccessService();
+        UserService userService = new UserService(userDao);
 
+        BookingDAO carBookingDao = new BookingDAO();
+        CarDAO carDAO = new CarDAO();
+
+        CarService carService = new CarService(carDAO);
+        BookingService bookingService = new BookingService(carBookingDao, carService);
+
+        Scanner scanner = new Scanner(System.in);
         boolean keepLooping = true;
 
         try {

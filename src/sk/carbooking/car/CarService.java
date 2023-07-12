@@ -1,14 +1,18 @@
 package sk.carbooking.car;
 
 public class CarService {
-    private final static CarDAO carDao = new CarDAO();
+
+    private final CarDAO carDAO;
+    public CarService(CarDAO carDAO) {
+        this.carDAO = carDAO;
+    }
 
     public Car[] getAllCars() {
-        return carDao.getCars();
+        return carDAO.getCars();
     }
 
     public Car getCarByRegNumber(String regNumber) {
-        for (Car car : carDao.getCars()) {
+        for (Car car : carDAO.getCars()) {
             if (regNumber.equals(car.getRegNumber())) {
                 return car;
             }

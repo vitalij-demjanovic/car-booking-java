@@ -1,12 +1,14 @@
 package sk.carbooking.car;
 
+import java.math.BigDecimal;
+
 public class Car {
     private String regNumber;
-    private String rentalPricePerDay;
+    private BigDecimal rentalPricePerDay;
     private Brand brand;
     private boolean isElectric;
 
-    public Car(String regNumber, String rentalPricePerDay, Brand brand, boolean isElectric) {
+    public Car(String regNumber, BigDecimal rentalPricePerDay, Brand brand, boolean isElectric) {
         this.regNumber = regNumber;
         this.rentalPricePerDay = rentalPricePerDay;
         this.brand = brand;
@@ -21,11 +23,11 @@ public class Car {
         this.regNumber = regNumber;
     }
 
-    public String getRentalPricePerDay() {
+    public BigDecimal getRentalPricePerDay() {
         return rentalPricePerDay;
     }
 
-    public void setRentalPricePerDay(String rentalPricePerDay) {
+    public void setRentalPricePerDay(BigDecimal rentalPricePerDay) {
         this.rentalPricePerDay = rentalPricePerDay;
     }
 

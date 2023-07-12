@@ -1,18 +1,16 @@
 package sk.carbooking.car;
 
-public class CarDAO {
-    private static final Car[] cars;
+import java.math.BigDecimal;
 
-    static {
-        cars = new Car[]{
-          new Car("1234", "88", Brand.Tesla, true),
-          new Car("5678", "33", Brand.Volkswagen, false),
-          new Car("2456", "56", Brand.Toyota, true),
-          new Car("1290", "49", Brand.Audi, false),
-        };
-    }
+public class CarDAO {
+    private static final Car[] CARS = {
+            new Car("1234", new BigDecimal("89.00"), Brand.Tesla, true),
+            new Car("5678", new BigDecimal("50.00"), Brand.Audi, false),
+            new Car("5678", new BigDecimal("77.00"), Brand.Volkswagen, false),
+            new Car("5678", new BigDecimal("77.00"), Brand.Tesla, false)
+    };
 
     public Car[] getCars() {
-        return cars;
+        return CARS;
     }
 }
